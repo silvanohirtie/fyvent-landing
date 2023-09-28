@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <link rel="icon" href="./favicon.png" type="image/x-icon" />
+
+    <style>
+      body {
+        background-color: #121212;
+        font-family: "Inter", sans-serif;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+      img {
+        max-width: 80%;
+        margin-bottom: 2vh;
+      }
+      #text {
+        font-size: 6vw;
+        font-weight: 400;
+        text-align: center; /* Added to center the text */
+        width: 100%; /* Added to limit the width */
+      }
+      #slidingText {
+        margin-top: 2vh;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        font-size: 6vw;
+        font-weight: bold;
+        color: #7434f4;
+      }
+
+      #updateIcon {
+        margin-top: 10vw;
+        font-size: 8vw; /* Adjusted to make the icon larger */
+        text-decoration: none;
+        display: block; /* Added to move the icon to a new line */
+        color: #7434f4;
+      }
+      #updateIcon {
+        text-decoration: none;
+      }
+      #instaText {
+        font-size: 2vw; /* Adjust font size as needed */
+        text-align: center; /* Center the text */
+        margin-top: 1vh; /* Space above the text */
+      }
+    </style>
+    <title>Fyvent</title>
+  </head>
+  <body>
+    <img src="./logo-header.png" alt="Eventi Image" />
+    <div id="text">I MIGLIORI EVENTI VICINO A TE</div>
+    <div id="slidingText">PARTY 🥳</div>
+    <!-- New Text and Instagram Icon -->
+    <a href="https://instagram.com/fyvent" id="updateIcon"
+      ><i class="fab fa-instagram"></i>
+    </a>
+    <div id="instaText">Seguici su Instagram per rimanere aggiornato</div>
+    <!-- New div for Instagram text -->
+
+    <script>
+      function showError() {
+        document.getElementById("text").textContent =
+          "I MIGLIORI EVENTI VICINO A TE";
+      }
+
+      function showCity(city) {
+        document.getElementById(
+          "text"
+        ).textContent = `I MIGLIORI EVENTI A ${city.toUpperCase()}`;
+      }
+
+      function getCity(latitude, longitude) {
+        fetch(
+          `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=it`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            const city = data.city || data.locality;
+            showCity(city);
+          })
+          .catch((error) => showError());
+      }
+
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position) => {
+            getCity(position.coords.latitude, position.coords.longitude);
+          }, showError);
+        } else {
+          showError();
+        }
+      }
+
+      getLocation();
+
+      const events = [
+        "PARTY 🥳",
+        "MUSICA 🎵",
+        "TORNEI 🏀",
+        "CIBO 🍕",
+        "MODA 👗",
+        "CONFERENZE 🎤",
+      ];
+
+      let currentIndex = 0;
+      const slidingText = document.getElementById("slidingText");
+
+      function showNextEvent() {
+        slidingText.style.opacity = "0";
+        setTimeout(() => {
+          slidingText.textContent = events[currentIndex];
+          slidingText.style.opacity = "1";
+          currentIndex = (currentIndex + 1) % events.length;
+        }, 1000);
+      }
+
+      showNextEvent();
+      setInterval(showNextEvent, 3000);
+    </script>
+  </body>
+</html>
