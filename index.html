@@ -78,20 +78,28 @@
           overflow-x: hidden;
         }
         .main-content {
-          flex-direction: column; /* Stack items vertically */
+          flex-direction: column;
           padding: 20px;
-        }
-
-        .main-content img {
-          order: -1; /* Make the image appear first */
-          margin-top: 20px;
-          margin-left: 0;
-          max-width: 100%; /* Adjust this to control the image size */
-          max-height: auto;
+          align-items: center; /* Center align items in a column */
         }
 
         .text-content {
-          text-align: center; /* Center the text if desired */
+          text-align: center;
+          overflow-y: hidden;
+        }
+
+        .main-content img {
+          order: -1;
+          margin-top: 20px;
+          margin-left: 0;
+          max-width: 90%; /* Reduce width to provide padding around the image */
+        }
+
+        .help-button-2 {
+          width: 90%; /* Adjust the width to fit smaller screens */
+          margin: 0 auto; /* Center the button */
+          box-sizing: border-box; /* Include padding and border in width and height */
+          font-size: 16px; /* Adjust font size if necessary */
         }
       }
     </style>
@@ -117,9 +125,6 @@
         <p style="font-size: 30px; color: white">
           Prenota e condividi i biglietti facilmente
         </p>
-        <a class="help-button-2" href="https://forms.gle/mejzfQByx91vLo6MA"
-          >Rispondi al sondaggio</a
-        >
       </div>
       <img id="iphone-img" src="./assets/img/1.png" alt="1" />
     </div>
