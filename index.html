@@ -3,132 +3,156 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap"
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
-
     <link rel="icon" href="./favicon.png" type="image/x-icon" />
-
     <style>
+      * {
+        font-family: "Red Hat Display", sans-serif;
+      }
       body {
-        background-color: #121212;
-        font-family: "Inter", sans-serif;
-        color: white;
+        margin: 0;
+        padding: 0;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        margin: 0;
-      }
-      img {
-        max-width: 50%;
-        margin-bottom: 2vh;
-      }
-      #text {
-        font-size: 6vw;
-        font-weight: 400;
-        text-align: center; /* Added to center the text */
-        width: 100%; /* Added to limit the width */
-      }
-      #slidingText {
-        margin-top: 2vh;
-        opacity: 0;
-        transition: opacity 1s ease-in-out;
-        font-size: 6vw;
-        font-weight: bold;
-        color: #7434f4;
+        background-color: #181b23;
       }
 
-      #updateIcon {
-        margin-top: 10vw;
-        font-size: 8vw; /* Adjusted to make the icon larger */
-        text-decoration: none;
-        display: block; /* Added to move the icon to a new line */
-        color: #7434f4;
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
       }
-      #updateIcon {
+
+      .header img {
+        max-height: 50px; /* Limit logo size */
+        width: auto;
+      }
+
+      .main-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        padding: 20px 140px;
+      }
+
+      .main-content img {
+        max-width: 700px; /* Limit main image size */
+        max-height: 700px;
+        width: auto;
+        height: auto;
+        margin-left: 100px;
+      }
+
+      .help-button {
+        padding: 10px 20px;
+        background-color: #8366db;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 20px;
         text-decoration: none;
       }
-      #instaText {
-        font-size: 2vw; /* Adjust font size as needed */
-        text-align: center; /* Center the text */
-        margin-top: 1vh; /* Space above the text */
+
+      .help-button-2 {
+        padding: 10px 20px;
+        background-color: #8366db;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 50px;
+        width: 300px;
+        height: 60px;
+        font-size: 100%;
+        text-decoration: none;
+      }
+
+      @media (max-width: 600px) {
+        * {
+          overflow-x: hidden;
+        }
+        .main-content {
+          flex-direction: column; /* Stack items vertically */
+          padding: 20px;
+        }
+
+        .main-content img {
+          order: -1; /* Make the image appear first */
+          margin-top: 20px;
+          margin-left: 0;
+          max-width: 100%; /* Adjust this to control the image size */
+          max-height: auto;
+        }
+
+        .text-content {
+          text-align: center; /* Center the text if desired */
+        }
       }
     </style>
     <title>Fyvent</title>
   </head>
   <body>
-    <img src="./logo-header.png" alt="Eventi Image" />
-    <div id="text">I MIGLIORI EVENTI VICINO A TE</div>
-    <div id="slidingText">PARTY 🥳</div>
-    <!-- New Text and Instagram Icon -->
-    <a href="https://instagram.com/fyvent" id="updateIcon"
-      ><i class="fab fa-instagram"></i>
-    </a>
-    <div id="instaText">Seguici su Instagram per rimanere aggiornato</div>
+    <div class="header">
+      <img src="./assets/img/logo-header.png" alt="Eventi Image" />
+      <a class="help-button" href="https://forms.gle/mejzfQByx91vLo6MA"
+        >Rispondi al sondaggio</a
+      >
+    </div>
+
+    <div class="main-content">
+      <div class="text-content">
+        <h1 id="main-text" style="color: white; font-size: 60px">
+          I migliori eventi solo per te.
+        </h1>
+        <p style="font-size: 30px; color: white">
+          Trova i migliori eventi in città
+        </p>
+        <p style="font-size: 30px; color: white">Scopri i partecipanti</p>
+        <p style="font-size: 30px; color: white">
+          Prenota e condividi i biglietti facilmente
+        </p>
+        <a class="help-button-2" href="https://forms.gle/mejzfQByx91vLo6MA"
+          >Rispondi al sondaggio</a
+        >
+      </div>
+      <img id="iphone-img" src="./assets/img/1.png" alt="1" />
+    </div>
+
     <!-- New div for Instagram text -->
 
     <script>
-      function showError() {
-        document.getElementById("text").textContent =
-          "I MIGLIORI EVENTI VICINO A TE";
-      }
-
-      function showCity(city) {
-        document.getElementById(
-          "text"
-        ).textContent = `I MIGLIORI EVENTI A ${city.toUpperCase()}`;
-      }
-
-      function getCity(latitude, longitude) {
-        fetch(
-          `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=it`
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            const city = data.city || data.locality;
-            showCity(city);
-          })
-          .catch((error) => showError());
-      }
-
-      function getLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition((position) => {
-            getCity(position.coords.latitude, position.coords.longitude);
-          }, showError);
-        } else {
-          showError();
-        }
-      }
-
-      getLocation();
-
-      const events = [
-        "PARTY 🥳",
-        "MUSICA 🎵",
-        "TORNEI 🏀",
-        "CIBO 🍕",
-        "MODA 👗",
-        "CONFERENZE 🎤",
-      ];
-
+      const images = [
+        "./assets/img/1.png",
+        "./assets/img/2.png",
+        "./assets/img/3.png",
+      ]; // Add your image sources here
       let currentIndex = 0;
-      const slidingText = document.getElementById("slidingText");
 
-      function showNextEvent() {
-        slidingText.style.opacity = "0";
+      function changeImage() {
+        const sliderImage = document.getElementById("iphone-img");
+        sliderImage.classList.add("slide-out");
+
         setTimeout(() => {
-          slidingText.textContent = events[currentIndex];
-          slidingText.style.opacity = "1";
-          currentIndex = (currentIndex + 1) % events.length;
-        }, 1000);
+          currentIndex = (currentIndex + 1) % images.length; // Loop back to the first image when it reaches the end
+          sliderImage.src = images[currentIndex];
+          sliderImage.classList.remove("slide-out");
+          sliderImage.classList.add("slide-in");
+
+          // Remove 'slide-in' to allow 'slide-out' to work in the next iteration
+          setTimeout(() => {
+            sliderImage.classList.remove("slide-in");
+          }, 500); // This should match the CSS transition time
+        }, 500); // This should match the CSS transition time
       }
 
-      showNextEvent();
-      setInterval(showNextEvent, 3000);
+      // Change image every 0.5 seconds
+      setInterval(changeImage, 1000);
     </script>
   </body>
 </html>
